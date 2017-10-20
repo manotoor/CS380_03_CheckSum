@@ -60,6 +60,13 @@ public class Ex3Client{
 		//For Odd
 		if(b.length %2 == 1){
 			//add odd bit to sum
+			sum = sum + ((b[b.length-1] << 8) & 0xFF00);
+			
+			// Check overflow
+			if((sum & 0xFFFF0000) > 0) {
+				sum &= 0xFFFF;
+				sum++;
+			}
 		}
 		//return sum
 		return (short)~(sum & 0xFFFF);
