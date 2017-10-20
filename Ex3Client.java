@@ -1,9 +1,15 @@
-public class Ex3Client.java{
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.Socket;
+
+public class Ex3Client{
 	public static void main(String[] args){
 		//Basic socket stuff
 		try(Socket socket = new Socket("18.221.102.182",38103)){
+			System.out.println("Connected to Server");
+
 			InputStream is = socket.getInputStream();
-			OuputStream os = socket.getOutputStream();
+			OutputStream os = socket.getOutputStream();
 
 			//Read in int value of how big the array is
 			int size = is.read();
@@ -20,16 +26,15 @@ public class Ex3Client.java{
 			//Send Checksum back to server as 2 bytes
 
 			//Listen for response, if response 1 then good if 0 then bad
-
-
-			System.out.println("Connected to Server");
+			
 		}catch(Exception e){
-			System.out.println("Something went wrong with server\n" + e);
+			System.out.println("\nSomething went wrong with server\n" + e);
 		}
-		System.out.println("Disconnected from Server");
+		System.out.println("\nDisconnected from Server");
 	}
 	private static short checksum(byte[] b){
 		//Initialize Sum
+		int sum = 0;
 		//Loop through bytes
 			//while looping i/2
 			//take upper shift logical left 4 bits
@@ -38,5 +43,6 @@ public class Ex3Client.java{
 			//add to sum
 			//check to make sure no overflow
 		//return sum
+		return (short) ~ (sum & 0xFFFF);
 	}
 }
